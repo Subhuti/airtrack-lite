@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}{{ airport.AirportName }} ({{ airport.ICAO }}) - Info{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="card shadow-lg p-4 rounded-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2 class="mb-0">{{ airport.AirportName }}</h2>
+      <span class="badge bg-secondary fs-5">{{ airport.ICAO }}</span>
+    </div>
+
+    <table class="table table-bordered align-middle">
+      <tbody>
+        <tr>
+          <th scope="row">IATA Code</th>
+          <td>{{ airport.IATA or 'N/A' }}</td>
+        </tr>
+        <tr>
+          <th scope="row">City</th>
+          <td>{{ airport.municipality or 'Unknown' }}</td>
+        </tr>
+        <tr>
+          <th scope="row">State</th>
+          <td>{{ airport.iso_region.split('-')[1] if airport.iso_region else 'Unknown' }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Country</th>
+          <td>
+            <img src="{{ url_for('static', filename='flags/' + get_country_flag(airport.iso_country)) }}"
+                 alt="{{ airport.iso_country }}" width="60" height="30" class="me-2">
+            {{ airport.iso_country or 'Unknown' }}
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">Coordinates</th>
+          <td>{{ airport.latitude_deg }}, {{ airport.longitude_deg }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Elevation</th>
+          <td>
+            {{ airport.elevation_ft }} ft
+            {% if airport.elevation_ft %}
+              ({{ (airport.elevation_ft * 0.3048) | round(1) }} m)
+            {% endif %}
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">Scheduled Service</th>
+          <td>{{ airport.scheduled_service or 'Unknown' }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Type</th>
+          <td>{{ airport.type or 'Unknown' }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Aircraft Seen Using This Airport</th>
+          <td>{{ aircraft_count or 0 }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    {% if airport.home_link or airport.wikipedia_link %}
+    <ul class="nav nav-tabs mt-4" id="airportTabs" role="tablist">
+      {% if airport.home_link %}
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="website-tab" data-bs-toggle="tab"
+                data-bs-target="#website" type="button" role="tab">🌐 Website</button>
+      </li>
+      {% endif %}
+      {% if airport.wikipedia_link %}
+      <li class="nav-item" role="presentation">
+        <button class="nav-link {% if not airport.home_link %}active{% endif %}" id="wiki-tab"
+                data-bs-toggle="tab" data-bs-target="#wiki" type="button" role="tab">📚 Wikipedia</button>
+      </li>
+      {% endif %}
+    </ul>
+
+    <div class="tab-content border border-top-0 p-3" id="airportTabsContent">
+      {% if airport.home_link %}
+      <div class="tab-pane fade show active" id="website" role="tabpanel">
+        <a href="{{ airport.home_link }}" class="btn btn-outline-primary" target="_blank">{{ airport.home_link }}</a>
+      </div>
+      {% endif %}
+      {% if airport.wikipedia_link %}
+      <div class="tab-pane fade {% if not airport.home_link %}show active{% endif %}" id="wiki" role="tabpanel">
+        <a href="{{ airport.wikipedia_link }}" class="btn btn-outline-secondary" target="_blank">{{ airport.wikipedia_link }}</a>
+      </div>
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

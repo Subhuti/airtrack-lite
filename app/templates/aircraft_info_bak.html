@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aircraft Info</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/aircraft_info.css') }}">
+    <script src="{{ url_for('static', filename='js/jquery-3.7.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+</head>
+
+<body class="info-background">
+    {% include 'header.html' %}
+    <h2 class="aircraft-info-title">Aircraft Information</h2>
+    <main class="aircraft-info-container">
+        <div class="aircraft-info-wrapper">
+            {% if aircraft['Registration'] and aircraft['Aircraft_Type'] %}
+            <div class="header-card">
+                <h3>{{ aircraft['Registration'] }} &mdash; {{ aircraft['Aircraft_Type'] }}</h3>
+            </div>
+            {% endif %}
+
+            <div class="aircraft-details">
+                <p><strong title="Official aircraft registration code.">Registration:</strong> {{ aircraft['Registration'] }}</p>
+                {% if aircraft['serial'] %}<p><strong title="Manufacturer Serial Number (MSN).">MSN:</strong> {{ aircraft['serial'] }}</p>{% endif %}
+                {% if aircraft['ICAO_Address_Display'] %}<p><strong title="Unique hexadecimal address assigned to the airframe.">ICAO 24-Bit Address:</strong> {{ aircraft['ICAO_Address_Display'] }}</p>{% endif %}
+                {% if aircraft['Manufacture_Year'] %}<p><strong title="Year the aircraft was manufactured.">Year of Manufacture:</strong> {{ aircraft['Manufacture_Year'] }}</p>{% endif %}
+                {% if aircraft['Age'] %}<p><strong title="Aircraft's age calculated from year of manufacture.">Aircraft Age:</strong> {{ aircraft['Age'] }} years</p>{% endif %}
+                <p><strong title="The general type of aircraft (e.g., A320, B737).">Aircraft Type:</strong> {{ aircraft['Aircraft_Type'] }}</p>
+                <p><strong title="Airline the aircraft is operated by.">Airline:</strong> {{ aircraft['AirlineName'] }}</p>
+                <p><strong title="Country where the aircraft is registered.">Country of Registration:</strong> {{ aircraft['Country_of_Reg'] }}</p>
+                <p><strong title="How many times you've seen this aircraft.">Times Seen:</strong> {{ aircraft['Times_Seen'] }}</p>
+                <p><strong title="The first time this aircraft was spotted.">First Seen:</strong> {{ aircraft['First_Seen_Display'] }}</p>
+                <p><strong title="The most recent sighting of this aircraft.">Last Sighted:</strong> {{ aircraft['Last_Sighted_Display'] }}</p>
+            </div>
+
+            {% if aircraft['serial'] or aircraft['airframe'] or aircraft['engmodel'] %}
+            <div class="aircraft-details">
+                <h4 class="mt-4">CASA Registry Information</h4>
+                {% if aircraft['mtow'] %}<p><strong>Maximum Takeoff Weight:</strong> {{ aircraft['mtow'] }} kg</p>{% endif %}
+                {% if aircraft['engnum'] %}<p><strong>Engine Count:</strong> {{ aircraft['engnum'] }}</p>{% endif %}
+                {% if aircraft['engmanu'] %}<p><strong>Engine Manufacturer:</strong> {{ aircraft['engmanu'] }}</p>{% endif %}
+                {% if aircraft['engtype'] %}<p><strong>Engine Type:</strong> {{ aircraft['engtype'] }}</p>{% endif %}
+                {% if aircraft['engmodel'] %}<p><strong title="Engine model listed in the FAA registry.">Engine Model:</strong> {{ aircraft['engmodel'] }}</p>{% endif %}
+                {% if aircraft['fueltype'] %}<p><strong>Fuel Type:</strong> {{ aircraft['fueltype'] }}</p>{% endif %}
+                {% if aircraft['regtype'] %}<p><strong>Registration Type:</strong> {{ aircraft['regtype'] }}</p>{% endif %}
+                {% if aircraft['regholdname'] %}<p><strong>Registered Owner:</strong> {{ aircraft['regholdname'] }}</p>{% endif %}
+                {% if aircraft['regholdsuburb'] %}<p><strong>Owner Location:</strong> {{ aircraft['regholdsuburb'] }}</p>{% endif %}
+                {% if aircraft['datefirstreg'] %}<p><strong>First Registration Date:</strong> {{ aircraft['datefirstreg'] }}</p>{% endif %}
+                {% if aircraft['airframe'] %}<p><strong>Airframe Type:</strong> {{ aircraft['airframe'] }}</p>{% endif %}
+                {% if aircraft['propmanu'] == 'Jet Engine' %}<p><strong>Engine Type:</strong> Jet Engine</p>
+                {% elif aircraft['propmanu'] %}<p><strong>Propeller Manufacturer:</strong> {{ aircraft['propmanu'] }}</p>{% endif %}
+                {% if aircraft['typecert'] %}<p><strong>Type Certification:</strong> {{ aircraft['typecert'] }}</p>{% endif %}
+                {% if aircraft['countrymanu'] %}<p><strong>Country of Manufacture:</strong> {{ aircraft['countrymanu'] }}</p>{% endif %}
+            </div>
+            {% endif %}
+
+            {% if aircraft.us_model_code %}
+            <div class="aircraft-details">
+                <h4 class="mt-4">FAA Registry Information</h4>
+                <p><strong title="FAA manufacturer/model code for the aircraft.">Model Code:</strong> {{ aircraft.us_model_code }}</p>
+                <p><strong>Engine Model:</strong> {{ aircraft.us_engine }}</p>
+                <p><strong title="Certification issued to the aircraft by the FAA.">Certification:</strong> {{ aircraft.us_cert }}</p>
+                <p><strong title="Registration status code: 'V' = Valid, 'D' = Deregistered, etc.">Status:</strong> {{ aircraft.us_status }}</p>
+                <p><strong title="Date when the aircraft was deemed airworthy by the FAA.">Airworthiness Date:</strong> {{ aircraft.us_airworthy }}</p>
+                <p><strong title="Hexadecimal Mode S transponder code used by radar and ADS-B.">Mode S Hex:</strong> {{ aircraft.us_hex }}</p>
+            </div>
+            {% endif %}
+
+            <div class="aircraft-flight-history">
+                <h2>Flight History</h2>
+                <table class="table table-striped" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>Flight Number</th>
+                            <th>Departure</th>
+                            <th>Arrival</th>
+                            <th>Timestamp</th>
+                            <th>Spotted At</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for flight in flight_history %}
+                        <tr>
+                            <td>{{ flight["FlightNumber"] }}</td>
+                            <td>{{ flight["Departure"] if flight["Departure"] else "N/A" }}</td>
+                            <td>{{ flight["Arrival"] if flight["Arrival"] else "N/A" }}</td>
+                            <td>{{ flight["Timestamp"] }}</td>
+                            <td>{{ flight["Spotted_At"] if flight["Spotted_At"] else "N/A" }}</td>
+                            <td>
+                                <form action="{{ url_for('delete_flight', flight_id=flight['FlightID']) }}" method="POST" style="display:inline;">
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete Flight</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="6">No flight history available.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {% if aircraft['Aircraft_Image'] %}
+            <div class="aircraft-image">
+                <h2>Aircraft Photo</h2>
+                <img src="{{ url_for('static', filename='images/' + aircraft['Aircraft_Image']) }}" alt="Aircraft Image">
+            </div>
+            {% endif %}
+
+            <div class="aircraft-notes">
+                <h2>Additional Notes</h2>
+                <p>{{ aircraft['Notes'] or 'No additional notes available.' }}</p>
+            </div>
+
+            <div class="aircraft-actions">
+                <a href="{{ request.referrer or url_for('aircraft_table') }}" class="back-aircraft-btn">Back</a>
+            </div>
+        </div>
+    </main>
+
+    {% include 'footer.html' %}
+</body>
+</html>

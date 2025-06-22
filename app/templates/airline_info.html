@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Airline Info</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/airline_info.css') }}">
+
+  <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
+</head>
+<body>
+  {% include 'header.html' %}
+
+  <div class="container airline-info-container mt-4">
+    <h1 class="airline-title">{{ airline['AirlineName'] }}</h1>
+
+    <div class="card mb-4">
+      <div class="card-header">Details</div>
+      <div class="card-body">
+        <table class="table table-bordered">
+          <tr>
+            <th scope="row">Airline ID</th>
+            <td>{{ airline['AirlineID'] }}</td>
+          </tr>
+          {% if airline['Last_Updated'] %}
+          <tr>
+            <th scope="row">Last Updated</th>
+            <td>{{ airline['Last_Updated'] }}</td>
+          </tr>
+          {% endif %}
+        </table>
+      </div>
+    </div>
+
+    <a href="{{ url_for('airlines.airlines_table') }}" class="btn btn-secondary">Back</a>
+  </div>
+
+  <!-- Scripts -->
+  <script src="{{ url_for('static', filename='js/jquery-3.7.1.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+</body>
+</html>

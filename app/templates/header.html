@@ -1,0 +1,30 @@
+<div class="header-container">
+    <table class="header-table">
+        <!-- Row for the main title -->
+        <tr>
+            <td class="header-content">
+              <div class="header-left">
+                <h1 class="header-title">AirTrack - Database</h1>
+              </div>
+            </td>
+          </tr>
+          
+        <tr>
+            <td class="header-content">
+                <div class="header-left">
+                    <p class="header-text"><em>A Hobbyist Aircraft Database by AirTrack Solutions</em></p>
+                </div>
+                <div class="header-right">
+                    <div class="header-links">
+                        <a href="{{ url_for('index') }}">Home</a>
+                        <a href="{{ url_for('airlines') }}">Airlines</a>
+                        <a href="{{ url_for('airlines.add_airline') }}">Add Airline</a>
+                        <a href="{{ url_for('aircraft.aircraft_table') }}">Aircraft</a>
+                        <a href="{{ url_for('add_aircraft.add_aircraft') }}">Add Aircraft</a>
+                        <a href="{{ url_for('reports') }}">Reports</a>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>

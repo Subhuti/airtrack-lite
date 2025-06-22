@@ -1,0 +1,29 @@
+services:
+  airtrack:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./app:/app
+    user: "${UID}:${GID}"
+    env_file:
+      - .env
+    depends_on:
+      - airtrack-db
+
+  airtrack-db:
+    image: mariadb:11.4
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "airtrack_pass"
+      MYSQL_DATABASE: "airtrack"
+      MYSQL_USER: "airtrack_user"
+      MYSQL_PASSWORD: "airtrack_pass"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./app/mariadb-init:/docker-entrypoint-initdb.d:ro
+
+volumes:
+  db_data:

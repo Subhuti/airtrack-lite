@@ -1,0 +1,31 @@
+{% if filtered_aircraft %}
+  {% for a in filtered_aircraft %}
+  <tr>
+    <td>{{ a['AirlineName'] or '—' }}</td>
+    <td>{{ a['FlightNumber'] or '—' }}</td>
+    <td>{{ a['Registration'] or '—' }}</td>
+    <td>{{ a['Aircraft_Type'] or '—' }}</td>
+    <td>{{ a['Departure_Display'] or '—' }}</td>
+    <td>{{ a['Arrival_Display'] or '—' }}</td>
+    <td>{{ a['Country_of_Reg'] or '—' }}</td>
+    <td>
+      {% if a['Country_Flag'] %}
+        <img src="{{ url_for('static', filename='flags/' + a['Country_Flag']) }}" alt="Flag" class="flag-img" />
+      {% else %}
+        —
+      {% endif %}
+    </td>
+    <td>
+      <a href="{{ url_for('aircraft_info.aircraft_info', aircraft_id=a['AircraftID']) }}" class="btn btn-primary btn-sm">Info</a>
+      <a href="{{ url_for('edit_aircraft.edit_aircraft', aircraft_id=a['AircraftID']) }}" class="btn btn-warning btn-sm">Edit</a>
+      <form action="{{ url_for('delete_aircraft', aircraft_id=a['AircraftID']) }}" method="POST" style="display:inline;">
+        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+      </form>
+    </td>
+  </tr>
+  {% endfor %}
+{% else %}
+  <tr>
+    <td colspan="10" class="text-center">❌ No aircraft found</td>
+  </tr>
+{% endif %}

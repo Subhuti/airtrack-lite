@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Aircraft</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/add_aircraft.css') }}">
+</head>
+<body>
+    {% include 'header.html' %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div id="flashes">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <div class="container mt-4">
+        <h2>Add New Aircraft</h2>
+        <form method="POST" action="{{ url_for('add_aircraft.add_aircraft') }}">
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label>Registration</label>
+                    <input type="text" name="Registration" class="form-control uppercase-input" required value="{{ registration or request.form.get('Registration', '') }}">
+                </div>
+                <div class="col-md-4">
+                    <label>Flight Number</label>
+                    <input type="text" name="FlightNumber" class="form-control uppercase-input" required value="{{ request.form.get('FlightNumber', '') }}">
+                </div>
+                <div class="col-md-4">
+                    <label>Aircraft Type</label>
+                    <input type="text" name="Aircraft_Type" class="form-control" required value="{{ request.form.get('Aircraft_Type', '') }}">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label>Airline</label>
+                    <select name="AirlineID" class="form-control">
+                        <option value="">— Select an airline —</option>
+                        {% for airline in airlines %}
+                            <option value="{{ airline.AirlineID }}" {% if request.form.get('AirlineID') == airline.AirlineID|string or selected_airline_id|string == airline.AirlineID|string %}selected{% endif %}>
+                                {{ airline.AirlineName }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label>Country of Registration</label>
+                    <input type="text" name="Country_of_Reg" class="form-control" value="{{ request.form.get('Country_of_Reg', '') }}">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label>Departure</label>
+                    <input type="text" name="Departure" class="form-control" placeholder="e.g. YSSY" value="{{ request.form.get('Departure', '') }}">
+                </div>
+                <div class="col-md-6">
+                    <label>Arrival</label>
+                    <input type="text" name="Arrival" class="form-control" placeholder="e.g. YMML" value="{{ request.form.get('Arrival', '') }}">
+                </div>
+            </div>
+
+            <input type="hidden" name="registration" value="{{ registration }}">
+
+            <div class="d-flex justify-content-between mt-4">
+                <a href="{{ url_for('aircraft.aircraft_table') }}" class="btn btn-secondary">Cancel</a>
+                <button type="submit" class="btn btn-success">Add Aircraft</button>
+            </div>
+        </form>
+    </div>
+
+    {% include 'footer.html' %}
+</body>
+</html>

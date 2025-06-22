@@ -1,0 +1,24 @@
+/* ==============================
+   Upload Aircraft Image Page
+   ============================== */
+
+body {
+    background: url("../images/teal_texture.jpg") repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    font-family: "Times New Roman", Times, serif;
+}
+
+.container {
+    background:
+
+    /* ==============================
+   Title Styling
+   ============================== */
+.title-text {
+    font-size: 2rem; /* Adjust size to match other titles */
+    font-weight: bold;
+    color: #333; /* Or the appropriate color for titles */
+    text-align: center;
+    margin-bottom: 20px; /* Consistent spacing below titles */
+}

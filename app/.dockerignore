@@ -1,0 +1,32 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Logs and runtime files
+*.log
+*.pid
+*.swp
+
+# Databases
+*.sqlite
+*.db
+
+# Environment files
+.env
+.venv/
+venv/
+
+# Git and Node
+.git/
+node_modules/
+
+# Backup and archive files
+*.bak
+*.tar
+*.zip
+
+# OS files
+.DS_Store
+Thumbs.db

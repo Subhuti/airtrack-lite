@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="card border-danger shadow-sm">
+            <div class="card-body">
+                <h2 class="text-danger">❌ An Error Occurred</h2>
+                <p class="mb-4">{{ error_message }}</p>
+                <a href="{{ url_for('index') }}" class="btn btn-primary">⬅️ Go Back</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

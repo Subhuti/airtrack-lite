@@ -1,0 +1,10 @@
+# .gitignore
+__pycache__/
+*.pyc
+.venv/
+*.log
+.env
+*.sqlite3
+backups/
+*.zip
+*.tar.gz

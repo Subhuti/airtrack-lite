@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Edit Airline</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/edit_airline.css') }}">
+  <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
+</head>
+<body>
+  {% include 'header.html' %}
+
+  <div class="container mt-4">
+    <h2 class="mb-4">Edit Airline</h2>
+
+    <form method="POST" action="{{ url_for('edit_airline', airline_id=airline['AirlineID']) }}">
+      <div class="mb-3">
+        <label for="airlineName" class="form-label">Airline Name</label>
+        <input type="text" class="form-control" id="airlineName" name="airlineName" value="{{ airline['AirlineName'] }}" required>
+      </div>
+
+      <div class="mb-4">
+        <label for="lastUpdated" class="form-label">Last Updated</label>
+        <input type="text" class="form-control" id="lastUpdated" name="lastUpdated" value="{{ airline['Last_Updated'] }}" readonly>
+      </div>
+
+      <div class="d-flex justify-content-between">
+        <a href="{{ url_for('airlines') }}" class="btn btn-secondary">Cancel</a>
+        <button type="submit" class="btn btn-success">Save</button>
+      </div>
+    </form>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/jquery-3.7.1.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+</body>
+</html>

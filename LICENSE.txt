@@ -1,0 +1,10 @@
+AirTrack Lite - Version 0.9.0 "Orville"
+
+This software is proprietary and confidential.
+
+Copyright (C) 2022-2025 Trevor @ AirTrack Solutions
+
+All rights reserved. Redistribution, modification, or resale of this software,
+in whole or in part, without express written permission is strictly prohibited.
+
+Your local data remains yours - we do not collect or access your information.

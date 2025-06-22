@@ -1,0 +1,18 @@
+<!-- templates/report_table.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title or "Report" }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/reports.css') }}">
+</head>
+<body>
+        <div class="container mt-4">
+        {% include 'partials/_report_table.html' %}
+    </div>
+
+    {% include 'footer.html' %}
+</body>
+</html>

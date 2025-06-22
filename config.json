@@ -1,0 +1,8 @@
+{
+  "user_name": "airtrack_user",
+  "user_hash": "",
+  "db_user": "airtrack_user",
+  "db_password": "airtrack_pass",
+  "db_root_password": "airtrack_pass",
+  "db_name": "airtrack"
+}

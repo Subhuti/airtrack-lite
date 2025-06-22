@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aircraft Info Help</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/aircraft_info.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/aircraft_info_help.css') }}">
+    <script src="{{ url_for('static', filename='js/jquery-3.7.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
+</head>
+
+<body class="info-background">
+    {% include 'header.html' %}
+
+    <h2 class="aircraft-title">Aircraft Information</h2> <!-- ✅ Title moved and styled -->
+
+    <main class="aircraft-info-container">
+        <div class="aircraft-info-wrapper">
+            <div class="header-card">
+                <!-- Title is now outside this card, per your instructions -->
+            </div>
+
+            {% include 'aircraft_info_help_content.html' %}
+           
+        </div>
+    </main>
+
+    <div class="aircraft-back-link">
+        <a href="{{ url_for('aircraft_info.aircraft_info', aircraft_id=aircraft_id) }}" class="teal-button">Back to Aircraft Info</a>
+    </div>
+    {% include 'footer.html' %}
+</body>
+</html>

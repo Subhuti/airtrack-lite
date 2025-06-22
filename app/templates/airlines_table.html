@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Airlines</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/airlines_table.css') }}">
+</head>
+<body>
+  {% include 'header.html' %}
+
+  <!-- Search box now properly aligned to the right -->
+<h2 class="page-title">Airlines</h2>
+
+<div class="search-container">
+  <div class="search-box-wrapper">
+    <input type="text" id="airlineSearch" class="search-box" placeholder="Search Airlines..." value="{{ search_query }}">
+  </div>
+</div>
+
+  <div class="airlines-table-wrapper">
+    <table class="airlines-table">
+      <thead>
+        <tr>
+          <th>Airline Name</th>
+          <th>Total Aircraft</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="airlines-tbody">
+        {% if airlines %}
+          {% for airline in airlines %}
+          <tr>
+            <td>{{ airline["AirlineName"] }}</td>
+            <td><a href="{{ url_for('aircraft.aircraft_table') }}?airline={{ airline['AirlineID'] }}">{{ airline["TotalAircraft"] }}</a></td>
+            <td>
+              <div class="actions-column">
+                <a href="{{ url_for('airline_info', airline_id=airline['AirlineID']) }}" class="btn btn-info">Info</a>
+                <a href="{{ url_for('add_aircraft.add_aircraft', airline_id=airline['AirlineID']) }}" class="btn btn-burgundy">Add</a>
+                <a href="{{ url_for('edit_airline', airline_id=airline['AirlineID']) }}" class="btn btn-warning">Edit</a>
+
+                <form action="{{ url_for('delete_airline', airline_id=airline['AirlineID']) }}"
+                      method="POST" class="d-flex align-items-center" style="gap: 8px;"
+                      onsubmit="return confirm('Are you sure you want to delete this airline?');">
+                  <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button"
+                            id="deleteOptionDropdown{{ airline['AirlineID'] }}"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                      Delete Option
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="deleteOptionDropdown{{ airline['AirlineID'] }}">
+                      <li><a class="dropdown-item" href="#" onclick="setDeleteOption('{{ airline.AirlineID }}', 'full'); return false;">Full Delete</a></li>
+                      <li><a class="dropdown-item" href="#" onclick="setDeleteOption('{{ airline.AirlineID }}', 'orphan'); return false;">Orphan Aircraft</a></li>
+                    </ul>
+                  </div>
+                  <input type="hidden" name="delete_option" id="deleteOptionInput{{ airline['AirlineID'] }}">
+                  <button type="submit" class="btn btn-danger" id="deleteBtn{{ airline['AirlineID'] }}" disabled>Delete</button>
+                </form>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        {% else %}
+          <tr class="empty-row">
+            <td colspan="3" class="text-center">⚠️ No airlines found.</td>
+          </tr>
+        {% endif %}
+      </tbody>
+    </table>
+
+    {% if total_pages > 1 %}
+    <nav class="pagination-container">
+      <ul class="pagination justify-content-center">
+        {% if current_page > 1 %}
+          <li class="page-item">
+            <a class="page-link" href="{{ url_for('airlines.airlines_table', page=current_page-1) }}">Previous</a>
+          </li>
+        {% endif %}
+        {% for p in range(1, total_pages + 1) %}
+          <li class="page-item {% if p == current_page %}active{% endif %}">
+            <a class="page-link" href="{{ url_for('airlines.airlines_table', page=p) }}">{{ p }}</a>
+          </li>
+        {% endfor %}
+        {% if current_page < total_pages %}
+          <li class="page-item">
+            <a class="page-link" href="{{ url_for('airlines.airlines_table', page=current_page+1) }}">Next</a>
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
+    {% endif %}
+  </div>
+
+  {% include 'footer.html' %}
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+  <script>
+    $(document).ready(function () {
+      $("#airlineSearch").on("input", function () {
+        let query = $(this).val().trim();
+        $.get("/search_unified", { type: "airline", search: query, page: 1 })
+          .done(function (partialHtml) {
+            $("#airlines-tbody").html(partialHtml);
+          })
+          .fail(function (error) {
+            console.error("❌ Search failed:", error);
+          });
+      });
+    });
+
+    function setDeleteOption(airlineId, value) {
+      const input = document.getElementById("deleteOptionInput" + airlineId);
+      const button = document.getElementById("deleteBtn" + airlineId);
+      if (input && button) {
+        input.value = value;
+        button.disabled = false;
+      }
+    }
+  </script>
+</body>
+</html>

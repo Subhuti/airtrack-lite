@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/reports.css') }}?v={{ time() }}">
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
+    <script src="{{ url_for('static', filename='js/reports.js') }}"></script>
+</head>
+
+<body class="info-background">
+    {% include 'header.html' %}
+
+    <h1 class="airtrack-section-title">Reports</h1>
+
+    <!-- Report Buttons -->
+    <div class="reports-button-group text-center">
+        <a href="#" class="btn btn-default report-link" data-report="top_countries">Top Countries of Registration</a>
+        <a href="#" class="btn btn-default report-link" data-report="top_airlines">Top Airlines</a>
+        <a href="#" class="btn btn-default report-link" data-report="logged_airports">Logged Airports</a>
+    </div>
+
+    <!-- Report Results Container -->
+    <div id="reportResults" class="report-results-area">
+        <p id="defaultReportText" class="report-info-text pulse-text">Select a report to view data.</p>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll(".report-link").forEach(button => {
+                button.addEventListener("click", function (event) {
+                    event.preventDefault();
+                    let reportType = this.dataset.report;
+                    let loadingTimer = setTimeout(function() {
+                        document.getElementById("reportResults").innerHTML = "<p class='report-info-text'>Loading...</p>";
+                    }, 250);
+
+                    fetch(`/reports/${reportType}`)
+                        .then(response => response.text())
+                        .then(data => {
+                            clearTimeout(loadingTimer);
+                            document.getElementById("reportResults").innerHTML = data;
+                        })
+                        .catch(error => {
+                            clearTimeout(loadingTimer);
+                            document.getElementById("reportResults").innerHTML = "<p style='color: red;'>Error loading report.</p>";
+                            console.error("❌ Fetch Error:", error);
+                        });
+                });
+            });
+        });
+    </script>
+
+    {% include 'footer.html' %}
+</body>
+</html>

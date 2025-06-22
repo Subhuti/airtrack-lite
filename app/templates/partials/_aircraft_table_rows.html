@@ -1,0 +1,31 @@
+<table class="table aircraft-table w-100">
+  <tbody id="aircraft-tbody">
+    {% if filtered_aircraft %}
+        {% for a in filtered_aircraft %}
+        <tr>
+            <td title="{{ a['AirlineName'] or '—' }}">{{ a['AirlineName'] or '—' }}</td>
+            <td title="{{ a['FlightNumber'] or '—' }}">{{ a['FlightNumber'] or '—' }}</td>
+            <td title="{{ a['Registration'] or '—' }}">{{ a['Registration'] or '—' }}</td>
+            <td title="{{ a['Aircraft_Type'] or '—' }}">{{ a['Aircraft_Type'] or '—' }}</td>
+            <td title="{{ a['Departure_Display'] or '—' }}">{{ a['Departure_Display'] or '—' }}</td>
+            <td title="{{ a['Arrival_Display'] or '—' }}">{{ a['Arrival_Display'] or '—' }}</td>
+            <td title="{{ a['Last_Sighted_Display'] or '—' }}">{{ a['Last_Sighted_Display'] or '—' }}</td>
+            <td>
+                <a href="{{ url_for('aircraft_info.aircraft_info', aircraft_id=a['AircraftID']) }}" class="btn btn-primary btn-sm">Info</a>
+                <a href="{{ url_for('edit_aircraft.edit_aircraft', aircraft_id=a['AircraftID']) }}" class="btn btn-warning btn-sm">Edit</a>
+                <form action="{{ url_for('delete_aircraft', aircraft_id=a['AircraftID']) }}" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <td colspan="8" class="text-center">
+                ⚠️ No aircraft found.<br><br>
+                <a id="fallback-add-btn" href="{{ url_for('add_aircraft.add_aircraft') }}" class="btn btn-teal">Add Aircraft</a>
+            </td>
+        </tr>
+    {% endif %}
+  </tbody>
+</table>

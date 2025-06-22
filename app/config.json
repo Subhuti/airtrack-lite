@@ -1,0 +1,8 @@
+{
+  "database": {
+    "host": "airtrack-db",
+    "user": "airtrack_user",
+    "password": "airtrack_pass",
+    "name": "airtrack"
+  }
+}

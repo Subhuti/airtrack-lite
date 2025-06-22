@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ aircraft['Registration'] }} — {{ aircraft['Aircraft_Type'] }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/aircraft_info.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+</head>
+<body>
+
+{% include 'header.html' %}
+
+<h1 class="aircraft-info-title">{{ aircraft['Registration'] }} — {{ aircraft['Aircraft_Type'] }}</h1>
+
+<div class="aircraft-info-container">
+
+    <div class="aircraft-details">
+        <p><strong>Airline:</strong> {{ aircraft['AirlineName'] or "—" }}</p>
+        <p><strong>Flight Number:</strong> {{ aircraft['FlightNumber'] or "—" }}</p>
+        <p><strong>ICAO Address:</strong> {{ aircraft['ICAO_Address'] or "—" }}</p>
+        <p><strong>Country of Registration:</strong> {{ aircraft['Country_of_Reg'] or "—" }}</p>
+        <p><strong>Flag:</strong>
+        {% if aircraft['Country_Flag'] %}
+            <img src="{{ url_for('static', filename='flags/' + aircraft['Country_Flag']) }}" alt="Flag" class="flag-img">
+        {% else %}
+            <span>No Flag</span>
+        {% endif %}
+        </p>
+        <p><strong>Departure:</strong> {{ aircraft['Departure'] | airport_display if aircraft['Departure'] else "—" }}</p>
+        <p><strong>Arrival:</strong> {{ aircraft['Arrival'] | airport_display if aircraft['Arrival'] else "—" }}</p>
+        <p><strong>First Sighted:</strong> {{ aircraft['First_Sighted_Display'] or "—" }}</p>
+        <p><strong>Last Sighted:</strong> {{ aircraft['Last_Sighted_Display'] or "—" }}</p>
+        <p><strong>Times Seen:</strong> {{ aircraft['Times_Seen'] or 0 }}</p>
+    </div>
+
+    <div class="aircraft-image">
+        {% if aircraft['Aircraft_Image'] %}
+            <img src="{{ url_for('static', filename=aircraft['Aircraft_Image']) }}" alt="Aircraft Image">
+        {% else %}
+            <p>No image available for this aircraft.</p>
+        {% endif %}
+    </div>
+
+    <div class="aircraft-flight-history">
+        <h2>Flight History</h2>
+        <div class="table-responsive" style="margin: 0 auto; max-width: 99%;">
+            <table class="table table-bordered table-hover" style="width: 100%;">
+
+            <thead>
+                <tr>
+                    <th style="width: 5%;">Flight Number</th>
+                    <th style="width: 12%;">Departure</th>
+                    <th style="width: 12%;">Arrival</th>
+                    <th style="width: 6%;">Timestamp</th>
+                    <th style="width: 3%;">Spotted At</th>
+                    <th style="width: 1%;">Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% if flight_history %}
+                    {% for flight in flight_history %}
+                    <tr>
+                        <td>{{ flight['FlightNumber'] or "—" }}</td>
+                        <td>{{ flight['Departure'] | airport_display if flight['Departure'] else "—" }}</td>
+                        <td>{{ flight['Arrival'] | airport_display if flight['Arrival'] else "—" }}</td>
+                        <td>{{ flight['Timestamp_Display'] or "—" }}</td>
+                        <td>{{ flight['Spotted_At'] or "—" }}</td>
+                        <td>
+                            <form action="{{ url_for('delete_flight', flight_id=flight['FlightID']) }}" method="POST" style="display:inline;">
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this flight?');">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="6" class="text-center">No flight history found for this aircraft.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+        </div>
+        {% if total_pages > 1 %}
+        <div class="pagination-container">
+            <ul class="pagination justify-content-center">
+                {% if current_page > 1 %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('aircraft_info.aircraft_info', aircraft_id=aircraft['AircraftID'], page=current_page-1) }}">Previous</a>
+                    </li>
+                {% endif %}
+                {% for i in range(1, total_pages + 1) %}
+                    <li class="page-item {% if i == current_page %}active{% endif %}">
+                        <a class="page-link" href="{{ url_for('aircraft_info.aircraft_info', aircraft_id=aircraft['AircraftID'], page=i) }}">{{ i }}</a>
+                    </li>
+                {% endfor %}
+                {% if current_page < total_pages %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('aircraft_info.aircraft_info', aircraft_id=aircraft['AircraftID'], page=current_page+1) }}">Next</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="aircraft-actions d-flex justify-content-between">
+        <a href="{{ url_for('aircraft.aircraft_table') }}" class="btn btn-teal">Back</a>
+        <form action="{{ url_for('delete_aircraft', aircraft_id=aircraft['AircraftID']) }}" method="POST">
+            <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+    </div>
+
+</div>
+
+{% include 'footer.html' %}
+<script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+</body>
+</html>

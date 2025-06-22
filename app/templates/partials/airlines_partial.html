@@ -1,0 +1,12 @@
+{% for airline in airlines %}
+<tr>
+    <td>{{ airline["AirlineName"] }}</td>
+    <td>
+        <a href="{{ url_for('add_aircraft.add_aircraft', airline_id=airline['AirlineID']) }}" class="btn btn-burgundy btn-sm">Add</a>
+        <a href="{{ url_for('airlines.edit_airline', airline_id=airline['AirlineID']) }}" class="btn btn-warning btn-sm">Edit</a>
+        <form action="{{ url_for('airlines.delete_airline', airline_id=airline['AirlineID']) }}" method="POST" style="display:inline;">
+            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirmDelete();">Delete</button>
+        </form>
+    </td>
+</tr>
+{% endfor %}

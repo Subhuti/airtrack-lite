@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Aircraft</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/aircraft_form.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+</head>
+<body>
+  {% include 'header.html' %}
+
+  <div class="container mt-4">
+    <h2>Add New Aircraft</h2>
+    <form method="POST" action="{{ url_for('aircraft.add_aircraft') }}" id="aircraft-form">
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label>Airline</label>
+          <select name="AirlineID" class="form-control" required>
+            <option value="">-- Select Airline --</option>
+            {% for airline in airlines %}
+              <option value="{{ airline['AirlineID'] }}">{{ airline['AirlineName'] }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label>Registration</label>
+          <input type="text" name="Registration" class="form-control" required>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label>Aircraft Type</label>
+          <input type="text" name="Aircraft_Type" class="form-control">
+        </div>
+        <div class="col-md-6">
+          <label>Flight Number</label>
+          <input type="text" name="FlightNumber" class="form-control">
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label>Departure</label>
+          <input type="text" name="Departure" class="form-control" placeholder="e.g. YSSY">
+        </div>
+        <div class="col-md-6">
+          <label>Arrival</label>
+          <input type="text" name="Arrival" class="form-control" placeholder="e.g. YMML">
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Save Aircraft</button>
+    </form>
+  </div>
+
+  {% include 'footer.html' %}
+</body>
+</html>

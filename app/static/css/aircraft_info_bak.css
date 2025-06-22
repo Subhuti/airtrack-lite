@@ -1,0 +1,154 @@
+/* ==============================
+   Aircraft Info Page Layout
+   ============================== */
+   .aircraft-info-container {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.aircraft-info-wrapper {
+    text-align: center;
+}
+
+.aircraft-info-title {
+    font-size: 26px;
+    font-weight: bold;
+    font-style: italic;
+    color: black;
+    font-family: "Times New Roman", Times, serif;
+    text-shadow: 2px 2px 4px white;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 0px;
+}
+
+/* ==============================
+   Section Styling
+   ============================== */
+.aircraft-details,
+.aircraft-sightings,
+.aircraft-flight-history,
+.aircraft-image,
+.aircraft-notes {
+    margin-bottom: 25px;
+    padding: 15px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    font-size: 22px;
+    color: #1b4f62;
+    margin-bottom: 10px;
+}
+
+p {
+    font-size: 16px;
+    color: #333;
+}
+
+/* ==============================
+   Flight History Table
+   ============================== */
+.aircraft-flight-history table {
+    width: 100%;
+    border-collapse: collapse !important;
+    border: none !important;
+}
+
+.aircraft-flight-history th,
+.aircraft-flight-history td {
+    padding: 10px;
+    text-align: center;
+    border: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-top: none !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
+    background-clip: padding-box;
+}
+
+.aircraft-flight-history th {
+    background-color: #1b4f62;
+    color: white;
+}
+
+.aircraft-flight-history tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* ==============================
+   Image Styling
+   ============================== */
+.aircraft-image img {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+/* ==============================
+   Buttons
+   ============================== */
+.aircraft-actions {
+    margin-top: 20px;
+}
+
+.aircraft-actions .btn {
+    font-size: 16px;
+    padding: 10px 20px;
+}
+
+.back-aircraft-btn {
+    background-color: #1b4f62;
+    color: white;
+    border: 1px solid #1b4f62;
+    padding: 10px 20px;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 14px;
+    height: 40px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+/* ==============================
+   Ellipsis Hover Explanations
+   ============================== */
+   .ellipsis-explanation {
+    position: relative;
+    display: inline-block;
+    cursor: help;
+    border-bottom: 1px dotted #000;
+}
+
+.ellipsis-explanation::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    background: #ffffff;
+    color: #333;
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    white-space: normal;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+    z-index: 10;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s;
+    width: max-content;
+    max-width: 300px;
+    top: 100%;
+    left: 0;
+}
+
+.ellipsis-explanation:hover::after {
+    opacity: 1;
+    visibility: visible;
+}

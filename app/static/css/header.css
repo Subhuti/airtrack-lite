@@ -1,0 +1,103 @@
+/* ==============================
+   1. Header Container & Table
+   ============================== */
+
+   .header-container {
+    background-color: white !important;
+    font-family: "Times New Roman", Times, serif;
+    width: calc(100% - 50px);
+    margin: 25px 25px 0px 25px;
+    padding: 10px;
+    border-radius: 12px;
+    position: relative;
+    color: #1b4f62;
+  }
+  
+  .header-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .header-title-cell {
+    text-align: left;
+    padding-left: 25px;
+  }
+  
+  .header-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 0;
+    color: #1b4f62;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  }
+  
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 10px 25px;
+  }
+  
+  .header-left {
+    flex-grow: 1;
+  }
+  
+  .header-text {
+    font-style: italic;
+    color: #1b4f62;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    text-align: left;
+  }
+  
+  .header-right {
+    margin-left: auto;
+  }
+  
+  .header-links {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .header-links a {
+    color: #1b4f62;
+    text-decoration: none;
+    font-size: 18px;
+  }
+  
+  .header-links a:hover {
+    color: #163f52;
+    text-decoration: underline;
+  }
+  
+  .admin-link {
+    color: #1b4f62;
+    text-decoration: none;
+    font-size: 18px;
+    margin-left: 20px;
+  }
+  
+  .admin-link:hover {
+    color: #163f52;
+    text-decoration: underline;
+  }
+  
+  /* ==============================
+     4. Navbar & Misc Utilities
+     ============================== */
+  .navbar-nav .nav-item {
+    margin-right: 15px;
+  }
+  
+  /* Background for info pages */
+  .info-background {
+    background: url("../images/teal_texture.jpg") repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    font-family: "Segoe UI", "Times New Roman", serif;
+    color: #1b4f62;
+    display: flex;
+    flex-direction: column;
+  }
+  

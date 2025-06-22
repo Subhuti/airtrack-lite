@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to AirTrack</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/splash.css') }}?v={{ current_time }}">
+</head>
+<body>
+    <div class="splash-container" id="splash">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="AirTrack" class="pulse">
+    </div>
+
+    <!-- ✅ JavaScript moved to external file -->
+    <script>
+        const splashRedirectUrl = "{{ url_for('index') }}"; // Flask URL variable
+    </script>
+    <script src="{{ url_for('static', filename='scripts.js/splash.js') }}?v={{ current_time }}"></script>
+</body>
+</html>

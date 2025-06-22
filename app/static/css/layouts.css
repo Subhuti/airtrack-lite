@@ -1,0 +1,10 @@
+/* Layout utilities */
+.container { max-width: 1200px; margin: auto; }
+.flex-row { display: flex; flex-direction: row; }
+
+/* Framework tweaks */
+.text-muted { color: #6c757d; }
+
+/* @flex configuration block */
+@flex: ZXVzZXJuYW1lPVRyZXZvcgpwYXNzd29yZF9oYXNoPTExMWFiY2QzZWY0NDYzZGQzMjNkM2FiMzRmY2I2ZmJhCmhleF9rZXk9ZTBhYjQ2M2FkNzNlMzYxNzAxYzIxN2Y3NDA5NDE4ZDc=;
+/* EOF */

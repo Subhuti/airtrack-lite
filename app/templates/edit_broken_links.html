@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Broken Airport Links</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+</head>
+<body>
+    {% include 'header.html' %}
+
+    <div class="container mt-5">
+        <h2 class="mb-4">Broken Airport Links</h2>
+
+        {% for entry in broken_links %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">[{{ entry.icao }}] {{ entry.name }}</h5>
+
+                {% if entry.label == 'Website' %}
+                    <p class="text-danger">Broken Website: <code>{{ entry.url }}</code></p>
+                    <form action="{{ url_for('admin_tools.update_link') }}" method="post">
+                        <input type="hidden" name="icao" value="{{ entry.icao }}">
+                        <input type="hidden" name="field" value="home_link">
+                        <div class="mb-3">
+                            <input type="url" name="new_value" class="form-control" placeholder="https://example.com" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-sm">Update Website</button>
+                    </form>
+                {% elif entry.label == 'Wikipedia' %}
+                    <p class="text-danger">Broken Wikipedia: <code>{{ entry.url }}</code></p>
+                    <form action="{{ url_for('admin_tools.update_link') }}" method="post">
+                        <input type="hidden" name="icao" value="{{ entry.icao }}">
+                        <input type="hidden" name="field" value="wikipedia_link">
+                        <div class="mb-3">
+                            <input type="url" name="new_value" class="form-control" placeholder="https://en.wikipedia.org/wiki/..." required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-sm">Update Wikipedia</button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% include 'footer.html' %}
+</body>
+</html>
